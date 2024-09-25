@@ -1,0 +1,52 @@
+{% extends "base.html" %} {% block title %}Player Stats{% endblock %} {% block
+content %}
+<h1 class="my-4">{{ player.name }} - Stats</h1>
+
+<!-- Player Information Section -->
+<div class="card">
+  <div class="card-body">
+    <h5 class="card-title">Player Information</h5>
+    <p><strong>Position:</strong> {{ player.position }}</p>
+    <p><strong>Birthdate:</strong> {{ player.birthdate }}</p>
+    <p><strong>Height:</strong> {{ player.height }}</p>
+    <p><strong>Weight:</strong> {{ player.weight }}</p>
+    <img
+      src="{{ player.player_thumb }}"
+      class="img-fluid"
+      alt="{{ player.name }}"
+    />
+  </div>
+</div>
+
+<!-- Stats Section -->
+<h2 class="mt-4">Statistics</h2>
+
+{% if player.stats %}
+<table class="table table-striped table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th>Games Played</th>
+      <th>Touchdowns</th>
+      <th>Yards</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>{{ player.stats[0].games_played }}</td>
+      <td>{{ player.stats[0].touchdowns }}</td>
+      <td>{{ player.stats[0].yards }}</td>
+    </tr>
+  </tbody>
+</table>
+
+{% else %}
+<p>No stats available for this player.</p>
+{% endif %}
+
+<a
+  href="{{ url_for('stats.add_stats', player_id=player.id) }}"
+  class="btn btn-primary mt-4"
+  >Add/Edit Stats</a
+>
+
+{% endblock %}

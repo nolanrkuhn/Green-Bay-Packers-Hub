@@ -1,0 +1,51 @@
+{% extends "base.html" %} {% block title %} My Favorite Players {% endblock %}
+{% block content %}
+<h1 class="my-4">My Favorite Players</h1>
+
+<table class="table table-striped table-bordered">
+  <thead class="thead-dark">
+    <tr>
+      <th>Player Name</th>
+      <th>Position</th>
+      <th>Birthdate</th>
+      <th>Height</th>
+      <th>Weight</th>
+      <th>Player Image</th>
+      <th>Remove Favorite</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for player in players %}
+    <tr>
+      <td>{{ player.name }}</td>
+      <td>{{ player.position }}</td>
+      <td>{{ player.birthdate }}</td>
+      <td>{{ player.height }}</td>
+      <td>{{ player.weight }}</td>
+      <td>
+        <img
+          src="{{ player.player_thumb }}"
+          alt="{{ player.name }}"
+          class="img-thumbnail"
+          width="100"
+        />
+      </td>
+      <td>
+        <form
+          action="{{ url_for('favorites.unfavorite_player', player_id=player.id) }}"
+          method="POST"
+        >
+          <button type="submit" class="btn btn-danger">
+            Remove from Favorites
+          </button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr>
+      <td colspan="7">You have no favorite players yet.</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

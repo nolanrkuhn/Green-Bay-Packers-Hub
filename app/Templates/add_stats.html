@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Add Stats{% endblock %}
+{% block content %}
+<h1 class="my-4">Add/Edit Player Stats</h1>
+
+<!-- Player Selection Form -->
+<form method="GET" action="{{ url_for('stats.add_stats') }}" class="mb-4">
+  <div class="form-group">
+    <label for="playerSelect">Select Player:</label>
+    <select id="playerSelect" name="player_id" class="form-control">
+      <option value="" selected disabled>Choose a player</option>
+      {% for player in players %}
+      <option value="{{ player.id }}" {% if selected_player and selected_player.id == player.id %}selected{% endif %}>{{ player.name }}</option>
+      {% endfor %}
+    </select>
+  </div>
+  <button type="submit" class="btn btn-primary">Select Player</button>
+</form>
+{% if selected_player %}
+<div class="card mb-4">
+  <div class="card-body">
+    <h5 class="card-title">Player Information</h5>
+    <p><strong>Name:</strong> {{ selected_player.name }}</p>
+    <p><strong>Position:</strong> {{ selected_player.position }}</p>
+    <p><strong>Birthdate:</strong> {{ selected_player.birthdate }}</p>
+    <p><strong>Height:</strong> {{ selected_player.height }}</p>
+    <p><strong>Weight:</strong> {{ selected_player.weight }}</p>
+    <img
+      src="{{ selected_player.player_thumb }}"
+      class="img-fluid img-thumbnail"
+      alt="{{ selected_player.name }}"
+      style="max-width: 200px; max-height: 200px;"
+    />
+  </div>
+</div>
+
+<h2 class="mt-4">Add/Edit Stats</h2>
+<form method="POST" action="{{ url_for('stats.add_stats', player_id=selected_player.id) }}">
+  {{ form.hidden_tag() }}
+
+  <div class="form-group">
+    {{ form.games_played.label(class="form-label") }}
+    {{ form.games_played(class="form-control") }}
+  </div>
+
+  <div class="form-group">
+    {{ form.touchdowns.label(class="form-label") }}
+    {{ form.touchdowns(class="form-control") }}
+  </div>
+
+  <div class="form-group">
+    {{ form.yards.label(class="form-label") }}
+    {{ form.yards(class="form-control") }}
+  </div>
+
+  <button type="submit" class="btn btn-primary mt-3">Save Stats</button>
+</form>
+{% endif %}
+
+{% endblock %}
