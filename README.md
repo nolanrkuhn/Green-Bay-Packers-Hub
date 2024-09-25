@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-**URL**: [Your Deployment URL Here]
+**URL**: https://green-bay-packers-hub.onrender.com
 
 The Green Bay Packers Stats website is a comprehensive platform that allows users to explore detailed information about Green Bay Packers players, view and manage their favorite players, and add custom stats for players. The project demonstrates a full-stack application using Flask for the backend, PostgreSQL for the database, and a clean, responsive frontend with Bootstrap.
 
