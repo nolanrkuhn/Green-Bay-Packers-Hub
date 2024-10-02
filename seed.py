@@ -3,30 +3,42 @@ from app import create_app, db
 from app.models import Player
 import requests
 
-def seed_data():
-    api_key = os.getenv("SPORTS_DB_API_KEY")
-    api_url = f"https://www.thesportsdb.com/api/v1/json/{api_key}/searchplayers.php?t=Green_Bay_Packers"
+# Fetch the API key from the environment variable
+API_KEY = os.getenv("SPORTS_DB_API_KEY")
 
-    response = requests.get(api_url)
+if not API_KEY:
+    raise ValueError("API key not found! Ensure it's set in the .env file.")
+
+def fetch_player_data():
+    url = f"https://www.thesportsdb.com/api/v1/json/{API_KEY}/searchplayers.php?t=Green_Bay_Packers"
+    response = requests.get(url)
 
     if response.status_code == 200:
-        data = response.json()
-        for player_info in data.get("player", []):
+        return response.json().get('player', [])
+    else:
+        print("Failed to fetch data from API.")
+        return []
+
+def seed_data():
+    players = fetch_player_data()
+
+    if players:
+        for player_info in players:
             player = Player(
-                name=player_info["strPlayer"],
-                position=player_info["strPosition"],
-                birthdate=player_info["dateBorn"],
-                height=player_info["strHeight"],
-                weight=player_info["strWeight"],
-                team=player_info["strTeam"],
-                player_thumb=player_info["strThumb"]
+                name=player_info.get("strPlayer"),
+                position=player_info.get("strPosition"),
+                birthdate=player_info.get("dateBorn"),
+                height=player_info.get("strHeight"),
+                weight=player_info.get("strWeight"),
+                team=player_info.get("strTeam"),
+                player_thumb=player_info.get("strThumb")
             )
             db.session.add(player)
 
         db.session.commit()
         print("Seeded players from API.")
     else:
-        print("Failed to fetch data from API.")
+        print("No players found.")
 
 if __name__ == "__main__":
     app = create_app()
