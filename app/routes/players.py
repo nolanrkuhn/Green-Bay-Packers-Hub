@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request
 from app.models import Player
-from app.forms import PlayerSearchForm
+from app.forms import PlayerSearchForm, get_positions
 
 players_bp = Blueprint('players', __name__)
 

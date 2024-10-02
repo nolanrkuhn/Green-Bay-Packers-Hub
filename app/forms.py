@@ -27,3 +27,6 @@ class PlayerSearchForm(FlaskForm):
     name = StringField('Player Name')
     position = SelectField('Position', choices=[])
     submit = SubmitField('Search')
+
+class FavoriteForm(FlaskForm):
+    submit = SubmitField('Favorite')

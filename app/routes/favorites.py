@@ -1,5 +1,6 @@
 from flask import Blueprint, redirect, url_for, flash, render_template
 from flask_login import login_required, current_user
+from app.forms import FavoriteForm
 from app.models import Favorite, Player
 from app import db
 
@@ -8,9 +9,10 @@ favorites_bp = Blueprint('favorites', __name__)
 @favorites_bp.route('/my-favorites')
 @login_required
 def my_favorites():
+    form = FavoriteForm()
     favorites = Favorite.query.filter_by(user_id=current_user.id).all()
     favorite_players = [favorite.player for favorite in favorites]
-    return render_template('favorites.html', players=favorite_players)
+    return render_template('favorites.html', players=favorite_players, form=form)
 
 @favorites_bp.route('/favorite/<int:player_id>', methods=['POST'])
 @login_required
