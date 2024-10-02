@@ -35,6 +35,7 @@
           action="{{ url_for('favorites.unfavorite_player', player_id=player.id) }}"
           method="POST"
         >
+          {{ form.hidden_tag() }}
           <button type="submit" class="btn btn-danger">
             Remove from Favorites
           </button>

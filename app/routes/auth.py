@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from app.forms import RegistrationForm, LoginForm
 from app.models import User
-from . import db, bcrypt
+from app import db, bcrypt
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -19,7 +19,7 @@ def register():
         new_user = User(username=username, password=password)
         db.session.add(new_user)
         db.session.commit()
-        return "User registered!"
+        return redirect(url_for('auth.login'))
     
     return render_template('register.html', form=form)
 

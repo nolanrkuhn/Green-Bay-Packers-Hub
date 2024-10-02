@@ -47,6 +47,7 @@ content %}
           action="{{ url_for('favorites.favorite_player', player_id=player.id) }}"
           method="post"
         >
+          {{ form.hidden_tag() }}
           <button type="submit" class="btn btn-success">
             Add to Favorites
           </button>
