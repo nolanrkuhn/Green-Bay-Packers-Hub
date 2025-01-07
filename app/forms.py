@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, IntegerField, SelectField, SubmitField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Length
 from app.models import Player
 
 def get_positions():
@@ -9,12 +9,12 @@ def get_positions():
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=6, message='Password must be at least 6 characters long')])
     submit = SubmitField('Register')
     
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=6, message='Password must be at least 6 characters long')])
     submit = SubmitField('Login')
     
 class PlayerStatForm(FlaskForm):

@@ -18,13 +18,26 @@ def show_players():
         name_query = form.name.data
         position_query = form.position.data
 
+        print(f"Name Query: {form.name.data}")
+        print(f"Position Query: {form.position.data}")
+
         if name_query:
             players_query = players_query.filter(Player.name.ilike(f'%{name_query}%'))
-        
+
         if position_query:
             players_query = players_query.filter_by(position=position_query)
-    
+
     players = players_query.all()
 
+    print("Filtered Players:")
+    for player in players:
+        print(f"Name={player.name}, Position={player.position}, Image={player.player_thumb}")
+
+    for player in players:
+        player.name = player.name or "N/A"
+        player.position = player.position or "N/A"
+        player.player_thumb = player.player_thumb or "/static/images/default-player.png"
+
     return render_template('players.html', players=players, form=form)
+
 
