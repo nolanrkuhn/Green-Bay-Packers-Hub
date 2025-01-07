@@ -8,3 +8,4 @@ __pycache__/
 instance/
 *.sqlite3
 
+test_env/
